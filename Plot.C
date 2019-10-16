@@ -6,7 +6,7 @@
 #include <TClonesArray.h>
 #include <TEllipse.h>
 
-#include "JNucleon.h"
+#include "Nucleon.h"
 
 // Cross sections: http://pdg.lbl.gov/2018/reviews/rpp2018-rev-cross-section-plots.pdf
 
@@ -21,12 +21,12 @@ void Plot(double b = 7.0, TString sFileName = "mcGlauber.root") {
 
     TTree *t = (TTree*)fIn->Get("tNucleus");
 
-    TClonesArray *nucleusA = new TClonesArray("JNucleon", 100);
-    TClonesArray *nucleusB = new TClonesArray("JNucleon", 100);
+    TClonesArray *nucleusA = new TClonesArray("Nucleon", 100);
+    TClonesArray *nucleusB = new TClonesArray("Nucleon", 100);
     t->SetBranchAddress("nucleusA", &nucleusA);
     t->SetBranchAddress("nucleusB", &nucleusB);
 
-    JNucleon *nucleon;
+    Nucleon *nucleon;
 
     TCanvas *c1 = new TCanvas("c1");
     c1->Range(-11, -11, 21, 21);
@@ -42,7 +42,7 @@ void Plot(double b = 7.0, TString sFileName = "mcGlauber.root") {
         t->GetEntry(i);
         nNucleons = nucleusA->GetEntriesFast();
         for (int j=0; j<nNucleons; j++) {
-            nucleon = (JNucleon*)nucleusA->At(j);
+            nucleon = (Nucleon*)nucleusA->At(j);
             x = nucleon->GetX();
             y = nucleon->GetY();
             TEllipse *circle = new TEllipse(x, y, nucleonR, nucleonR);
@@ -59,7 +59,7 @@ void Plot(double b = 7.0, TString sFileName = "mcGlauber.root") {
 
         nNucleons = nucleusB->GetEntriesFast();
         for (int j=0; j<nNucleons; j++) {
-            nucleon = (JNucleon*)nucleusB->At(j);
+            nucleon = (Nucleon*)nucleusB->At(j);
             x = nucleon->GetX();
             y = nucleon->GetY();
             TEllipse *circle = new TEllipse(x, y, nucleonR, nucleonR);
@@ -94,7 +94,7 @@ void Plot(double b = 7.0, TString sFileName = "mcGlauber.root") {
         t->GetEntry(i);
         nNucleons = nucleusA->GetEntriesFast();
         for (int j=0; j<nNucleons; j++) {
-            nucleon = (JNucleon*)nucleusA->At(j);
+            nucleon = (Nucleon*)nucleusA->At(j);
             x = nucleon->GetX();
             z = nucleon->GetZ();
             TEllipse *circle = new TEllipse(z-15.0, x, nucleonR, nucleonR);
@@ -111,7 +111,7 @@ void Plot(double b = 7.0, TString sFileName = "mcGlauber.root") {
 
         nNucleons = nucleusB->GetEntriesFast();
         for (int j=0; j<nNucleons; j++) {
-            nucleon = (JNucleon*)nucleusB->At(j);
+            nucleon = (Nucleon*)nucleusB->At(j);
             x = nucleon->GetX();
             z = nucleon->GetZ();
             TEllipse *circle = new TEllipse(z+15.0, x, nucleonR, nucleonR);

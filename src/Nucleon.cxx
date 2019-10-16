@@ -1,35 +1,35 @@
-#include "JNucleon.h"
+#include "Nucleon.h"
 #include "TMath.h"
 
-ClassImp(JNucleon)
+ClassImp(Nucleon)
 
-JNucleon::JNucleon() {
+Nucleon::Nucleon() {
     r = 1.0;
     azimuthalAngle = 1.0;
     polarAngle = 1.0;
     bIsParticipant = false;
 }
 
-JNucleon::JNucleon(double radius, double azimuthal, double polar) {
+Nucleon::Nucleon(double radius, double azimuthal, double polar) {
     r = radius;
     azimuthalAngle = azimuthal;
     polarAngle = polar;
     bIsParticipant = false;
 }
 
-double JNucleon::GetX() {
+double Nucleon::GetX() {
     return r*TMath::Sin(polarAngle)*TMath::Cos(azimuthalAngle);
 }
 
-double JNucleon::GetY() {
+double Nucleon::GetY() {
     return r*TMath::Sin(polarAngle)*TMath::Sin(azimuthalAngle);
 }
 
-double JNucleon::GetZ() {
+double Nucleon::GetZ() {
     return r*TMath::Cos(polarAngle);
 }
 
-void JNucleon::SetCoordinatesFromCartesian(double x, double y, double z) {
+void Nucleon::SetCoordinatesFromCartesian(double x, double y, double z) {
     r = TMath::Sqrt(x*x + y*y + z*z);
     if (x>0) azimuthalAngle = TMath::ATan(y/x);
     if (x<0 && y>=0) azimuthalAngle = TMath::ATan(y/x) + TMath::Pi();

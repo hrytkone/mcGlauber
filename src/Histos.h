@@ -1,10 +1,10 @@
 #include "TH1D.h"
 
-class JHistos {
+class Histos {
 
 public:
-    JHistos();
-    virtual ~JHistos(){;}
+    Histos();
+    virtual ~Histos(){;}
 
     TH1D *hImpactParameter;
     TH1D *hNcoll;

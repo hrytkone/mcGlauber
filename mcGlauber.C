@@ -2,8 +2,8 @@
 #include <vector>
 #include <stdlib.h>
 
-#include "JHistos.h"
-#include "JNucleon.h"
+#include "src/Histos.h"
+#include "src/Nucleon.h"
 
 #include "TMath.h"
 #include "TFile.h"
@@ -23,7 +23,7 @@ const double minDist = 1.0; //fm
 double WoodsSaxonDist(double *x, double *p);
 double ImpactParameterDist(double *x, double *p);
 double GetDistance(vector<double> a, vector<double> b);
-void GetNucleonCoordinates(TClonesArray *nucleus, double nNucleons, TRandom3 *rand, JHistos *histos, TF1 *fRadiusDist, double shift);
+void GetNucleonCoordinates(TClonesArray *nucleus, double nNucleons, TRandom3 *rand, Histos *histos, TF1 *fRadiusDist, double shift);
 void GetCollisions(TClonesArray *nucleusA, TClonesArray *nucleusB, double inelasticCrossSection, int &Ncoll, int &Npart);
 
 int main(int argc, char **pargv) {
@@ -38,7 +38,7 @@ int main(int argc, char **pargv) {
     rand->SetSeed(0);
 
     TTree *t = new TTree("tNucleus", "Tree of nuclei");
-    JHistos *histos = new JHistos();
+    Histos *histos = new Histos();
 
     int nEvents = 1;
     if (argc>1)
@@ -61,8 +61,8 @@ int main(int argc, char **pargv) {
     fImpactParamDist->SetParameter(0, 10.0);
 
     double nNucleons = Z + nNeutrons;
-    TClonesArray *nucleusA = new TClonesArray("JNucleon", 100);
-    TClonesArray *nucleusB = new TClonesArray("JNucleon", 100);
+    TClonesArray *nucleusA = new TClonesArray("Nucleon", 100);
+    TClonesArray *nucleusB = new TClonesArray("Nucleon", 100);
 
     t->Branch("nucleusA", "TClonesArray", &nucleusA);
     t->Branch("nucleusB", "TClonesArray", &nucleusB);
@@ -103,10 +103,10 @@ int main(int argc, char **pargv) {
     return 0;
 }
 
-void GetNucleonCoordinates(TClonesArray *nucleus, double nNucleons, TRandom3 *rand, JHistos *histos, TF1 *fRadiusDist, double shift) {
+void GetNucleonCoordinates(TClonesArray *nucleus, double nNucleons, TRandom3 *rand, Histos *histos, TF1 *fRadiusDist, double shift) {
     double r, azimuthal, polar;
     double x, y, z;
-    JNucleon nucleon;
+    Nucleon nucleon;
 
     int vecSize = 0;
     vector<vector<double>> XYZ;
@@ -133,7 +133,7 @@ void GetNucleonCoordinates(TClonesArray *nucleus, double nNucleons, TRandom3 *ra
             XYZ.push_back(vecTemp);
 
             nucleon.SetCoordinatesFromCartesian(x, y, z);
-            new((*nucleus)[i]) JNucleon(nucleon);
+            new((*nucleus)[i]) Nucleon(nucleon);
             i++;
         } else {
             x = nucleon.GetX() + shift;
@@ -155,7 +155,7 @@ void GetNucleonCoordinates(TClonesArray *nucleus, double nNucleons, TRandom3 *ra
                 XYZ.push_back(vecTemp);
 
                 nucleon.SetCoordinatesFromCartesian(x, y, z);
-                new((*nucleus)[i]) JNucleon(nucleon);
+                new((*nucleus)[i]) Nucleon(nucleon);
                 i++;
             }
 
@@ -167,8 +167,8 @@ void GetCollisions(TClonesArray *nucleusA, TClonesArray *nucleusB, double inelas
 
     double interactionRadius = TMath::Sqrt(inelasticCrossSection/pi);
 
-    JNucleon *nucleonA;
-    JNucleon *nucleonB;
+    Nucleon *nucleonA;
+    Nucleon *nucleonB;
 
     vector<double> A = {0, 0};
     vector<double> B = {0, 0};
@@ -177,11 +177,11 @@ void GetCollisions(TClonesArray *nucleusA, TClonesArray *nucleusB, double inelas
     int nucleonsAmax = nucleusA->GetEntriesFast();
     int nucleonsBmax = nucleusB->GetEntriesFast();
     for (i=0; i<nucleonsAmax; i++) {
-        nucleonA = (JNucleon*)nucleusA->At(i);
+        nucleonA = (Nucleon*)nucleusA->At(i);
         A = {nucleonA->GetX(), nucleonA->GetY()};
 
         for (j=0; j<nucleonsBmax; j++) {
-            nucleonB = (JNucleon*)nucleusB->At(j);
+            nucleonB = (Nucleon*)nucleusB->At(j);
             B = {nucleonB->GetX(), nucleonB->GetY()};
 
             if (GetDistance(A, B) < interactionRadius) {

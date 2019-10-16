@@ -1,9 +1,9 @@
-#ifndef _JNUCLEON_H_
-#define _JNUCLEON_H_
+#ifndef _NUCLEON_H_
+#define _NUCLEON_H_
 
 #include "TObject.h"
 
-class JNucleon : public TObject {
+class Nucleon : public TObject {
 
 private:
     double r;
@@ -12,10 +12,10 @@ private:
     bool bIsParticipant;
 
 public:
-    JNucleon();
-    JNucleon(double, double, double);
+    Nucleon();
+    Nucleon(double, double, double);
 
-    virtual ~JNucleon() {;}
+    virtual ~Nucleon() {;}
 
     double GetRadius() {return r;}
     double GetAzimuthalAngle() {return azimuthalAngle;}
@@ -34,7 +34,7 @@ public:
     void SetCoordinatesFromCartesian(double x, double y, double z);
 
 protected:
-    ClassDef(JNucleon, 1)
+    ClassDef(Nucleon, 1)
 
 };
 #endif
