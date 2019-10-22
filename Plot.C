@@ -6,7 +6,7 @@
 #include <TClonesArray.h>
 #include <TEllipse.h>
 
-#include "Nucleon.h"
+#include "src/Nucleon.h"
 
 // Cross sections: http://pdg.lbl.gov/2018/reviews/rpp2018-rev-cross-section-plots.pdf
 

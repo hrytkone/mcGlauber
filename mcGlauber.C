@@ -40,7 +40,7 @@ int main(int argc, char **pargv) {
     TTree *t = new TTree("tNucleus", "Tree of nuclei");
     Histos *histos = new Histos();
 
-    int nEvents = 1;
+    int nEvents = 1000;
     if (argc>1)
         nEvents = atof(pargv[1]);
 
